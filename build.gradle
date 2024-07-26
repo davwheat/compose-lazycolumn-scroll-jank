@@ -1,0 +1,21 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    id 'com.diffplug.spotless' version "6.25.0"
+}
+
+
+spotless {
+    java {
+        target("app/src/**/*.java", "data/src/**/*.java")
+        googleJavaFormat('1.22.0').reflowLongStrings()
+        formatAnnotations()
+    }
+
+    kotlin {
+        target("app/src/**/*.kt", "data/src/**/*.kt")
+        ktfmt('0.47').kotlinlangStyle()
+    }
+}
