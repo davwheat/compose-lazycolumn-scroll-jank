@@ -48,12 +48,6 @@ class MainActivity : ComponentActivity() {
                 "Group 6" to (1..10).toList(),
             )
 
-        val notices =
-            listOf(
-                "Example notice 1",
-                "Example notice 2",
-            )
-
         setContent {
             val lazyListState = rememberLazyListState()
             val scope = rememberCoroutineScope()
@@ -79,24 +73,12 @@ class MainActivity : ComponentActivity() {
                         ) {
                             Button(onClick = { scrollTo(0) }) { Text("Scroll to idx 0") }
                             Button(onClick = { scrollTo(1) }) { Text("Scroll to idx 1") }
-                            Button(onClick = { scrollTo(2) }) { Text("Scroll to idx 2") }
-                            Button(onClick = { scrollTo(4) }) { Text("Scroll to idx 4") }
                             Button(onClick = { scrollTo(25) }) { Text("Scroll to idx 25") }
                         }
 
                         LazyColumn(
                             state = lazyListState,
                         ) {
-                            itemsIndexed(notices, key = { _, it -> it }) { i, it ->
-                                Column(modifier = Modifier.animateItem()) {
-                                    ListItem(it)
-
-                                    if (i < notices.size - 1) {
-                                        HorizontalDivider(modifier = Modifier.fillMaxWidth())
-                                    }
-                                }
-                            }
-
                             resultsGroupedByDay.forEach { (group, items) ->
                                 stickyHeader(key = group) { ListHeader(group) }
 
