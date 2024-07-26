@@ -24,15 +24,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.davwheat.lazycolumnstickyheaderrepro.ui.theme.LazyColumnStickyHeaderReproTheme
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -43,12 +40,12 @@ class MainActivity : ComponentActivity() {
 
         val resultsGroupedByDay =
             mapOf(
-                LocalDate.parse("2025-01-01") to (1..10).toList(),
-                LocalDate.parse("2025-01-02") to (1..10).toList(),
-                LocalDate.parse("2025-01-03") to (1..10).toList(),
-                LocalDate.parse("2025-01-04") to (1..10).toList(),
-                LocalDate.parse("2025-01-05") to (1..10).toList(),
-                LocalDate.parse("2025-01-06") to (1..10).toList(),
+                "Group 1" to (1..10).toList(),
+                "Group 2" to (1..10).toList(),
+                "Group 3" to (1..10).toList(),
+                "Group 4" to (1..10).toList(),
+                "Group 5" to (1..10).toList(),
+                "Group 6" to (1..10).toList(),
             )
 
         val notices =
@@ -82,7 +79,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             Button(onClick = { scrollTo(0) }) { Text("Scroll to idx 0") }
                             Button(onClick = { scrollTo(1) }) { Text("Scroll to idx 1") }
-                            Button(onClick = { scrollTo(3) }) { Text("Scroll to idx 3") }
+                            Button(onClick = { scrollTo(2) }) { Text("Scroll to idx 2") }
                             Button(onClick = { scrollTo(4) }) { Text("Scroll to idx 4") }
                             Button(onClick = { scrollTo(25) }) { Text("Scroll to idx 25") }
                         }
@@ -100,28 +97,11 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
 
-                            item(key = "less") {
-                                Row(
-                                    modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center,
-                                ) {
-                                    TextButton(
-                                        onClick = {},
-                                        modifier = Modifier.fillMaxWidth(),
-                                    ) {
-                                        Text(
-                                            "Example button",
-                                            style = MaterialTheme.typography.bodyMedium,
-                                        )
-                                    }
-                                }
-                            }
+                            resultsGroupedByDay.forEach { (group, items) ->
+                                stickyHeader(key = group) { ListHeader(group) }
 
-                            resultsGroupedByDay.forEach { (date, results) ->
-                                stickyHeader(key = date) { ListHeader(date.formatted()) }
-
-                                val maxIndex = results.size - 1
-                                itemsIndexed(results, key = { _, result -> "$date-$result" }) {
+                                val maxIndex = items.size - 1
+                                itemsIndexed(items, key = { _, item -> "$group-$item" }) {
                                     index,
                                     num ->
                                     Column(
@@ -133,23 +113,6 @@ class MainActivity : ComponentActivity() {
                                         HorizontalDivider(color = dividerColor)
                                         ListItem(num.toString())
                                         HorizontalDivider(color = dividerColor)
-                                    }
-                                }
-                            }
-
-                            item(key = "more") {
-                                Row(
-                                    modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center,
-                                ) {
-                                    TextButton(
-                                        onClick = {},
-                                        modifier = Modifier.fillMaxWidth(),
-                                    ) {
-                                        Text(
-                                            "Example button",
-                                            style = MaterialTheme.typography.bodyMedium,
-                                        )
                                     }
                                 }
                             }
@@ -178,5 +141,3 @@ fun ListItem(text: String) {
         Text(text, modifier = Modifier.padding(16.dp))
     }
 }
-
-internal fun LocalDate.formatted(): String = DateTimeFormatter.ofPattern("EEE dd MMM").format(this)
