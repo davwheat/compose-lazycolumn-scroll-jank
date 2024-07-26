@@ -73,6 +73,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             Button(onClick = { scrollTo(0) }) { Text("Scroll to idx 0") }
                             Button(onClick = { scrollTo(1) }) { Text("Scroll to idx 1") }
+                            Button(onClick = { scrollTo(11) }) { Text("Scroll to idx 10") }
                             Button(onClick = { scrollTo(25) }) { Text("Scroll to idx 25") }
                         }
 
@@ -120,6 +121,6 @@ fun ListHeader(text: String) {
 @Composable
 fun ListItem(text: String) {
     Surface(color = MaterialTheme.colorScheme.surfaceVariant, modifier = Modifier.fillMaxWidth()) {
-        Text(text, modifier = Modifier.padding(16.dp))
+        Text(text, modifier = Modifier.padding(48.dp))
     }
 }
